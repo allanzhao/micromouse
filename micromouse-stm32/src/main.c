@@ -1,15 +1,8 @@
-//
-// This file is part of the GNU ARM Eclipse distribution.
-// Copyright (c) 2014 Liviu Ionescu.
-//
-
-// ----------------------------------------------------------------------------
-
 #include <stdio.h>
 #include "diag/Trace.h"
 
+#include "gpio.h"
 #include "Timer.h"
-#include "BlinkLed.h"
 
 // ----------------------------------------------------------------------------
 //
@@ -36,8 +29,8 @@
 
 // ----- Timing definitions -------------------------------------------------
 
-// Keep the LED on for 1/5 of a second.
-#define BLINK_ON_TICKS  (TIMER_FREQUENCY_HZ * 1 / 5)
+// Keep the LED on for 1/32 of a second.
+#define BLINK_ON_TICKS  (TIMER_FREQUENCY_HZ * 1 / 32)
 #define BLINK_OFF_TICKS (TIMER_FREQUENCY_HZ - BLINK_ON_TICKS)
 
 // ----- main() ---------------------------------------------------------------
@@ -49,48 +42,48 @@
 #pragma GCC diagnostic ignored "-Wmissing-declarations"
 #pragma GCC diagnostic ignored "-Wreturn-type"
 
-int
-main(int argc, char* argv[])
-{
-  // By customising __initialize_args() it is possible to pass arguments,
-  // for example when running tests with semihosting you can pass various
-  // options to the test.
-  // trace_dump_args(argc, argv);
+int main(int argc, char* argv[]) {
+    // By customising __initialize_args() it is possible to pass arguments,
+    // for example when running tests with semihosting you can pass various
+    // options to the test.
+    // trace_dump_args(argc, argv);
 
-  // Send a greeting to the trace device (skipped on Release).
-  trace_puts("Hello ARM World!");
+    // Send a greeting to the trace device (skipped on Release).
+    trace_puts("Hello ARM World!");
 
-  // The standard output and the standard error should be forwarded to
-  // the trace device. For this to work, a redirection in _write.c is
-  // required.
-  puts("Standard output message.");
-  fprintf(stderr, "Standard error message.\n");
+    // The standard output and the standard error should be forwarded to
+    // the trace device. For this to work, a redirection in _write.c is
+    // required.
+    puts("Standard output message.");
+    fprintf(stderr, "Standard error message.\n");
 
-  // At this stage the system clock should have already been configured
-  // at high speed.
-  trace_printf("System clock: %uHz\n", SystemCoreClock);
+    // At this stage the system clock should have already been configured
+    // at high speed.
+    trace_printf("System clock: %uHz\n", SystemCoreClock);
 
-  timer_start();
+    timer_start();
 
-  blink_led_init();
+    init_hardware();
 
-  uint32_t seconds = 0;
+    uint32_t seconds = 0;
 
-  // Infinite loop
-  while (1)
-    {
-      blink_led_on();
-      timer_sleep(BLINK_ON_TICKS);
+    // Infinite loop
+    while(1) {
+        for(uint8_t i = 0; i < 4; i++) {
+            struct GPIOPin *pin = i == 0 ? &LED_STATUS_RED : &LED_STATUS_GREEN;
 
-      blink_led_off();
-      timer_sleep(BLINK_OFF_TICKS);
+            digital_write(pin, HIGH);
+            timer_sleep(TIMER_FREQUENCY_HZ / 100);
 
-      ++seconds;
+            digital_write(pin, LOW);
+            timer_sleep(TIMER_FREQUENCY_HZ / 100 * 9);
+        }
+        ++seconds;
 
-      // Count seconds on the trace device.
-      trace_printf("Second %u\n", seconds);
+        // Count seconds on the trace device.
+        trace_printf("Second %u\n", seconds);
     }
-  // Infinite loop, never return.
+    // Infinite loop, never return.
 }
 
 #pragma GCC diagnostic pop
