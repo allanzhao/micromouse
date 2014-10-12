@@ -11,6 +11,8 @@
 #define DISPLAY_WIDTH_PIXELS 20
 #define DISPLAY_HEIGHT_PIXELS 7
 
+#define DISPLAY_SIZE_CHARS 4
+
 void displayInit(void);
 
 void displaySendCommand0(void);

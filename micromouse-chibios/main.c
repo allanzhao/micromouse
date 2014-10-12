@@ -1,6 +1,8 @@
 #include <ch.h>
 #include <hal.h>
 #include "display.h"
+#include "font.h"
+#include "raster.h"
 
 static WORKING_AREA(blinkThreadWa, 128);
 static msg_t blinkThread(void *arg) {
@@ -28,12 +30,17 @@ int main(void) {
 
     displayInit();
 
-    uint8_t image[20];
-    for(int i = 0; i < 20; i++) {
-        image[i] = (i == 0) ? 2 : 0;
-    }
+    uint8_t raster[DISPLAY_SIZE_CHARS * 5];
 
-    displaySendRaster(image);
+    rasterClear(raster, DISPLAY_SIZE_CHARS);
+    rasterDrawString(raster, fontPixels, "MRV1", 4, 0);
+    displaySendRaster(raster);
+
+    chThdSleepMilliseconds(2000);
+
+    rasterClear(raster, DISPLAY_SIZE_CHARS);
+    rasterDrawString(raster, fontPixels, "RDY", 4, 0);
+    displaySendRaster(raster);
 
     while(1) {
         palWritePad(GPIOA, GPIOA_LED_STATUS_G, palReadPad(GPIOC, GPIOC_BUTTON_0));
