@@ -91,9 +91,12 @@ CSRC = $(PORTSRC) \
        $(CHIBIOS)/os/various/devices_lib/accel/lis302dl.c \
        $(CHIBIOS)/os/various/chprintf.c \
        main.c \
+       periph.c \
        display.c \
        font.c \
-       raster.c
+       raster.c \
+       services.c \
+       motors.c
 
 # C++ sources that can be compiled in ARM or THUMB mode depending on the global
 # setting.

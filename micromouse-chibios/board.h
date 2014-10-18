@@ -472,9 +472,9 @@
  * PC3  - LED_DEBUG_3               (output pushpull maximum).
  * PC4  - BUTTON_0                  (input floating).
  * PC5  - BUTTON_1                  (input floating).
- * PC6  - MOTOR_LEFT_ENABLE         (output pushpull maximum).
+ * PC6  - MOTOR_LEFT_ENABLE         (alternate 3).
  * PC7  - MOTOR_LEFT_BRAKE          (output pushpull maximum).
- * PC8  - MOTOR_RIGHT_ENABLE        (output pushpull maximum).
+ * PC8  - MOTOR_RIGHT_ENABLE        (alternate 3).
  * PC9  - MOTOR_RIGHT_BRAKE         (output pushpull maximum).
  * PC10 - DISPLAY_DI                (output pushpull maximum).
  * PC11 - DISPLAY_RS                (output pushpull maximum).
@@ -489,9 +489,9 @@
                                      PIN_MODE_OUTPUT(GPIOC_LED_DEBUG_3) |   \
                                      PIN_MODE_INPUT(GPIOC_BUTTON_0) |       \
                                      PIN_MODE_INPUT(GPIOC_BUTTON_1) |       \
-                                     PIN_MODE_OUTPUT(GPIOC_MOTOR_LEFT_ENABLE) |\
+                                     PIN_MODE_ALTERNATE(GPIOC_MOTOR_LEFT_ENABLE) |\
                                      PIN_MODE_OUTPUT(GPIOC_MOTOR_LEFT_BRAKE) |\
-                                     PIN_MODE_OUTPUT(GPIOC_MOTOR_RIGHT_ENABLE) |\
+                                     PIN_MODE_ALTERNATE(GPIOC_MOTOR_RIGHT_ENABLE) |\
                                      PIN_MODE_OUTPUT(GPIOC_MOTOR_RIGHT_BRAKE) |\
                                      PIN_MODE_OUTPUT(GPIOC_DISPLAY_DI) |    \
                                      PIN_MODE_OUTPUT(GPIOC_DISPLAY_RS) |    \
@@ -569,9 +569,9 @@
                                      PIN_AFIO_AF(GPIOC_LED_DEBUG_3, 0) |    \
                                      PIN_AFIO_AF(GPIOC_BUTTON_0, 0) |       \
                                      PIN_AFIO_AF(GPIOC_BUTTON_1, 0) |       \
-                                     PIN_AFIO_AF(GPIOC_MOTOR_LEFT_ENABLE, 0) |\
+                                     PIN_AFIO_AF(GPIOC_MOTOR_LEFT_ENABLE, 3) |\
                                      PIN_AFIO_AF(GPIOC_MOTOR_LEFT_BRAKE, 0))
-#define VAL_GPIOC_AFRH              (PIN_AFIO_AF(GPIOC_MOTOR_RIGHT_ENABLE, 0) |\
+#define VAL_GPIOC_AFRH              (PIN_AFIO_AF(GPIOC_MOTOR_RIGHT_ENABLE, 3) |\
                                      PIN_AFIO_AF(GPIOC_MOTOR_RIGHT_BRAKE, 0) |\
                                      PIN_AFIO_AF(GPIOC_DISPLAY_DI, 0) |     \
                                      PIN_AFIO_AF(GPIOC_DISPLAY_RS, 0) |     \

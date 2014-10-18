@@ -333,8 +333,8 @@
         Level="High"
         Speed="Maximum"
         Resistor="Floating"
-        Mode="Output"
-        Alternate="0" />
+        Mode="Alternate"
+        Alternate="3" />
       <pin7
         ID="MOTOR_LEFT_BRAKE"
         Type="PushPull"
@@ -349,8 +349,8 @@
         Level="High"
         Speed="Maximum"
         Resistor="Floating"
-        Mode="Output"
-        Alternate="0" />
+        Mode="Alternate"
+        Alternate="3" />
       <pin9
         ID="MOTOR_RIGHT_BRAKE"
         Type="PushPull"
