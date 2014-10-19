@@ -1,6 +1,9 @@
 #include <ch.h>
 #include <hal.h>
 #include <stdio.h>
+#include <math.h>
+#include <stm32.h>
+#include <qei.h>
 #include "periph.h"
 #include "display.h"
 #include "motors.h"
@@ -62,15 +65,40 @@ int main(void) {
     rasterDrawString(raster, fontPixels, "RDY", 4, 0);
     displaySendRaster(raster);
 
+
+
+
     while(1) {
+        if(!palReadPad(GPIOC, GPIOC_BUTTON_0)) {
+            palClearPad(GPIOB, GPIOB_MOTOR_LEFT_PHASE);
+            pwmEnableChannel(&PWMD8, 0, 100);
+        } else if(!palReadPad(GPIOC, GPIOC_BUTTON_1)) {
+            palSetPad(GPIOB, GPIOB_MOTOR_LEFT_PHASE);
+            pwmEnableChannel(&PWMD8, 0, 100);
+        } else {
+            pwmDisableChannel(&PWMD8, 0);
+        }
+        snprintf(strBuffer, 5, "%04d", qeiGetCount(&QEID3) % 10000);
+        rasterClear(raster, DISPLAY_SIZE_CHARS);
+        rasterDrawString(raster, fontPixels, strBuffer, 4, 0);
+        displaySendRaster(raster);
+        chThdSleepMilliseconds(10);
+    }
+
+
+
+
+    /*while(1) {
         while(palReadPad(GPIOC, GPIOC_BUTTON_0)) {
             chThdSleepMilliseconds(100);
         }
 
-        pwmEnableChannel(&PWMD8, 0, 100);
-        pwmEnableChannel(&PWMD8, 2, 100);
-        chThdSleepMilliseconds(3000);
+        for(int i = 0; i < 5000; i++) {
+            pwmEnableChannel(&PWMD8, 0, 300 - 250 * cos(i / 300.0f));
+            pwmEnableChannel(&PWMD8, 2, 300 - 250 * sin(i / 300.0f));
+            chThdSleepMilliseconds(1);
+        }
         pwmDisableChannel(&PWMD8, 0);
         pwmDisableChannel(&PWMD8, 2);
-    }
+    }*/
 }

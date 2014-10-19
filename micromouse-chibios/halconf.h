@@ -156,6 +156,13 @@
 #define HAL_USE_USB                 FALSE
 #endif
 
+/**
+ * @brief   Enables the QEI subsystem.
+ */
+#if !defined(HAL_USE_QEI) || defined(__DOXYGEN__)
+#define HAL_USE_QEI                 TRUE
+#endif
+
 /*===========================================================================*/
 /* ADC driver related settings.                                              */
 /*===========================================================================*/
