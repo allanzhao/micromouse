@@ -16,6 +16,8 @@
 
 static WORKING_AREA(blinkThreadWa, 128);
 static msg_t blinkThread(void *arg) {
+    (void)arg;
+
     while(1) {
         palSetPad(GPIOA, GPIOA_LED_STATUS_G);
         chThdSleepMilliseconds(5);

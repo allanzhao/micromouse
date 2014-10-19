@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <math.h>
 #include <stm32.h>
-#include <qei.h>
 #include "periph.h"
 #include "display.h"
 #include "motors.h"
@@ -68,24 +67,30 @@ int main(void) {
 
 
 
+    motor_t motor = MOTOR_LEFT;
+
     while(1) {
         if(!palReadPad(GPIOC, GPIOC_BUTTON_0)) {
-            palClearPad(GPIOB, GPIOB_MOTOR_LEFT_PHASE);
-            pwmEnableChannel(&PWMD8, 0, 100);
+            motorSetPower(motor, 100);
         } else if(!palReadPad(GPIOC, GPIOC_BUTTON_1)) {
-            palSetPad(GPIOB, GPIOB_MOTOR_LEFT_PHASE);
-            pwmEnableChannel(&PWMD8, 0, 100);
+            motorSetPower(motor, -100);
         } else {
-            pwmDisableChannel(&PWMD8, 0);
+            motorSetPower(motor, 0);
         }
-        snprintf(strBuffer, 5, "%04d", qeiGetCount(&QEID3) % 10000);
+        snprintf(strBuffer, 5, "%04d", motorReadEncoderRaw(motor) % 10000);
         rasterClear(raster, DISPLAY_SIZE_CHARS);
         rasterDrawString(raster, fontPixels, strBuffer, 4, 0);
         displaySendRaster(raster);
         chThdSleepMilliseconds(10);
     }
 
-
+    /*pwmEnableChannel(&PWMD8, 2, 100);
+    chThdSleepMilliseconds(2000);
+    pwmDisableChannel(&PWMD8, 2);
+    palSetPad(GPIOA, GPIOA_LED_STATUS_R);
+    while(1) {
+        chThdSleepMilliseconds(100);
+    }*/
 
 
     /*while(1) {
