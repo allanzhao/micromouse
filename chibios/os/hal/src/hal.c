@@ -114,6 +114,9 @@ void halInit(void) {
 #if HAL_USE_USB || defined(__DOXYGEN__)
   usbInit();
 #endif
+#if HAL_USE_QEI || defined(__DOXYGEN__)
+  qeiInit();
+#endif
 #if HAL_USE_MMC_SPI || defined(__DOXYGEN__)
   mmcInit();
 #endif
