@@ -3,14 +3,6 @@ micromouse
 
 Code for an autonomous maze-solving robot.
 
-Modules
--------
-
-  * **micromouse-chibios**: Firmware for the physical robot, running on an STM32F405 microcontroller. Uses the ChibiOS real-time operating system.
-  * **micromouse-gazebo**: Simulation of a virtual robot, based on the Gazebo robotics simulation platform.
-  * **micromouse-common**: The high-level logic of the robot, shared between the *chibios* and *gazebo* implementations.
-  * **micromouse-stm32**: Old bare-metal firmware, probably won't be of use from now on.
-
 STM32 Debugging Workflow
 ------------------------
 
